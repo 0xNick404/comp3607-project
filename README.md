@@ -1,6 +1,6 @@
 <a name="top"></a>
 
-<img src="https://i.imgur.com/StuaE4t.jpeg" width="100%">
+<img src="https://i.imgur.com/ft0HBiV.jpeg" width="100%">
 
 ![GitHub top language](https://img.shields.io/github/languages/top/0xNick404/comp3607-project)
 ![GitHub last commit](https://img.shields.io/github/last-commit/0xNick404/comp3607-project)
