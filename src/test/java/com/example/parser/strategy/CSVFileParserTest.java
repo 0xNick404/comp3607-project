@@ -1,4 +1,4 @@
-package com.example.strategy;
+package com.example.parser.strategy;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  */
 
-public class XMLFileParserTest{
+public class CSVFileParserTest{
     
 }

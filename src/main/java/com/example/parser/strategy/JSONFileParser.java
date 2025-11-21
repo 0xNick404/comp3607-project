@@ -1,4 +1,4 @@
-package com.example.strategy;
+package com.example.parser.strategy;
 
 import com.example.model.Question;
 
