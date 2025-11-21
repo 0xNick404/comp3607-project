@@ -23,19 +23,19 @@ Implementation of a Multi-Player Jeopardy Game application in Java. The game run
 ## Requirements
 
 - JDK 21 or newer \
-Check with:
+Check version with:
 ```bash
 java -version
 ```
 
 - Apache maven 3.9.11 \
-Check with:
+Check version with:
 ```bash
 mvn -v
 ```
 
 - Git \
-Check with:
+Check if installed with:
 ```bash
 git --version
 ```
