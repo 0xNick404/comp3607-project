@@ -1,13 +1,15 @@
-package com.example.strategy;
+package com.example.parser.strategy;
 
 import java.util.List;
 
 import com.example.model.Question;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.io.BufferedReader;
+import java.util.Arrays;
 import java.io.IOException;
 
 /**
@@ -21,44 +23,52 @@ public class CSVFileParser implements FileParserStrategy{
     @Override
     public List<Question> parse(InputStream inputStream){
         List<Question> questions = new ArrayList<>();
-        BufferedReader reader = null;
-        String line = "";
+        CSVReader reader = null;
+        String line[];
 
         try{
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            reader = new CSVReader(new InputStreamReader(inputStream));
 
             /** Read first line */
-            line = reader.readLine();
+            line = reader.readNext();
+
+            String header[] = {
+                "Category",
+                "Value",
+                "Question",
+                "OptionA",
+                "OptionB",
+                "OptionC",
+                "OptionD",
+                "CorrectAnswer"
+            };
 
             /** Make sure file is not empty and has correct headers */
             if(line == null) throw new IllegalArgumentException("File is empty");
-            if(!line.equals("Category,Value,Question,OptionA,OptionB,OptionC,OptionD,CorrectAnswer"))
+            if(!Arrays.equals(line,header))
                 throw new IllegalArgumentException("File has wrong columns: " + line);
 
             /** Run through following lines */
-            while((line = reader.readLine()) != null){
-                /** Split values */
-                String[] question = line.split(",");
-
+            while((line = reader.readNext()) != null){
                 /** Assign values */
-                String category = question[0];
-                String value = question[1];
-                String questionText = question[2];
+                String category = line[0];
+                String value = line[1];
+                String questionText = line[2];
 
                 String options[] = {
-                    question[3],
-                    question[4],
-                    question[5],
-                    question[6]
+                    line[3],
+                    line[4],
+                    line[5],
+                    line[6]
                 };
 
-                String correctAnswer = question[7];
+                String correctAnswer = line[7];
 
                 /** Store in Question */
                 questions.add(new Question(category, value, questionText, options, correctAnswer));
             }
         }
-        catch(Exception e){
+        catch(IOException | CsvValidationException e){
             e.printStackTrace();
         }
         finally{
