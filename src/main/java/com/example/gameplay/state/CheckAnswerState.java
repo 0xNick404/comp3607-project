@@ -1,0 +1,27 @@
+package com.example.gameplay.state;
+
+/**
+ * 
+ */
+public class CheckAnswerState implements GameState{
+    @Override
+    public void loadGameState(GameEngine gameEngine) {
+        String playerInput = gameEngine.getInput();
+        String correctAnswer = gameEngine.getCurrentQuestion().getCorrectAnswer();
+
+        if(playerInput.equalsIgnoreCase(correctAnswer)){
+            System.out.println("\nCORRECT!");
+            gameEngine.setAnswerCorrect(true);
+        }
+        else{
+            System.out.println("\nWRONG! The correct answer was: " + correctAnswer);
+            gameEngine.setAnswerCorrect(false);
+        }
+        
+    }
+    
+    @Override
+    public void nextGameState(GameEngine gameEngine) {
+        gameEngine.setGameState(new UpdateScoreState());
+    }
+}
