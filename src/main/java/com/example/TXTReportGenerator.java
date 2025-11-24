@@ -1,3 +1,17 @@
+/**
+ * Generates a plain-text (.txt) report summarizing the final results
+ * of a Jeopardy-style game session. The report includes:
+ * <ul>
+ *     <li>Game metadata (start time, end time, number of players, etc.)</li>
+ *     <li>Final scores and winner</li>
+ *     <li>Turn-by-turn gameplay history</li>
+ * </ul>
+ *
+ * This class implements the {@link ReportGenerator} interface and
+ * writes all report content to a user-specified file or a default name
+ * if none is provided.
+ */
+
 package com.example;
 
 import java.io.FileWriter;
@@ -10,6 +24,18 @@ import java.util.List;
 
 public class TXTReportGenerator implements ReportGenerator {
 
+    /**
+     * Generates a complete TXT report for the given game session.
+     *
+     * <p>If {@code filePath} is null or blank, a default timestamped filename
+     * will be created. If the provided filename does not end with
+     * {@code ".txt"}, the extension is automatically appended.</p>
+     *
+     * @param session  The active {@link GameEngine} session containing game results.
+     * @param filePath The desired output path for the report. May be null or blank.
+     * @throws ReportGenerationException If any I/O error occurs while writing the file.
+     */
+    
     @Override
     public void generateReport(GameEngine session, String filePath) throws ReportGenerationException {
         // Set default filename if none provided
@@ -34,7 +60,12 @@ public class TXTReportGenerator implements ReportGenerator {
         }
     }
     
-    // Report Content Writers
+     /**
+     * Writes all components of the report to the provided {@link PrintWriter}.
+     *
+     * @param writer  The writer used to output the report.
+     * @param session The game session used to construct report details.
+     */
     private void writeReportContent(PrintWriter writer, GameEngine session) {
         writeHeader(writer);
         writeGameSummary(writer, session);
@@ -43,7 +74,11 @@ public class TXTReportGenerator implements ReportGenerator {
         writeFooter(writer);
     }
     
-    // Header Section
+    /**
+     * Writes the formatted header section of the report.
+     *
+     * @param writer The writer receiving the header content.
+     */
     private void writeHeader(PrintWriter writer) {
         writer.println("=".repeat(80));
         writer.println("UWI COMP3607 JEOPARDY GAME - FINAL REPORT");
@@ -51,6 +86,14 @@ public class TXTReportGenerator implements ReportGenerator {
         writer.println("Generated: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         writer.println();
     }
+
+    /**
+     * Writes a brief summary of the game session including player count,
+     * total turns, and timestamps for game start and end.
+     *
+     * @param writer  The writer receiving the summary content.
+     * @param session The session containing game metadata.
+     */
     
     private void writeGameSummary(PrintWriter writer, GameEngine session) {
         writer.println("--- GAME SUMMARY ---");
@@ -60,6 +103,13 @@ public class TXTReportGenerator implements ReportGenerator {
         writer.println("Game Ended: " + session.getEndTime()); 
         writer.println("--------------------\n");
     }
+
+    /**
+     * Writes each player's final score and highlights the winner if applicable.
+     *
+     * @param writer  The writer receiving the score content.
+     * @param players The list of participating players.
+     */
     
     private void writeFinalScores(PrintWriter writer, List<Player> players) {
         writer.println("--- FINAL SCORES ---");
@@ -85,7 +135,14 @@ public class TXTReportGenerator implements ReportGenerator {
         }
         writer.println("--------------------\n");
     }
-    
+
+    /**
+     * Writes a structured table summarizing every turn of the game.
+     *
+     * @param writer The writer receiving the turn-by-turn data.
+     * @param turns  The list of all game turns in order.
+     */
+
     private void writeTurnByTurnHistory(PrintWriter writer, List<GameTurn> turns) {
         writer.println("--- TURN-BY-TURN HISTORY ---");
         
@@ -102,7 +159,21 @@ public class TXTReportGenerator implements ReportGenerator {
         }
         writer.println("--------------------------\n");
     }
-    
+
+    /**
+     * Writes the details of a single game turn including:
+     * <ul>
+     *     <li>Player name</li>
+     *     <li>Category and question value</li>
+     *     <li>Answer (truncated)</li>
+     *     <li>Correctness</li>
+     *     <li>Running total</li>
+     * </ul>
+     *
+     * @param writer     The writer receiving the row content.
+     * @param turn       The turn being printed.
+     * @param turnNumber The sequential turn number.
+     */
     private void writeTurnRow(PrintWriter writer, GameTurn turn, int turnNumber) {
         // Truncate long answers for neatness
         String answer = truncateText(turn.getGivenAnswer(), 25);
@@ -127,7 +198,11 @@ public class TXTReportGenerator implements ReportGenerator {
         writer.println();
     }
     
-    // Footer Section
+   /**
+     * Writes the footer section indicating the end of the report.
+     *
+     * @param writer The writer receiving the footer content.
+     */
     private void writeFooter(PrintWriter writer) {
         writer.println("=".repeat(80));
         writer.println("           END OF REPORT - COMP3607 JEOPARDY");
@@ -136,7 +211,12 @@ public class TXTReportGenerator implements ReportGenerator {
     
     
     
-    // Simple winner determination
+    /**
+     * Identifies the player with the highest score.
+     *
+     * @param players The list of players to evaluate.
+     * @return The player with the highest score, or {@code null} if the list is empty.
+     */
     private Player findWinner(List<Player> players) {
         if (players == null || players.isEmpty()) {
             return null;
@@ -150,12 +230,19 @@ public class TXTReportGenerator implements ReportGenerator {
         return winner;
     }
     
-    // Truncates long text, simple and safe
+     /**
+     * Truncates a string to a maximum length, appending "..." if truncated.
+     *
+     * @param text      The text to truncate.
+     * @param maxLength The maximum allowed length.
+     * @return The truncated text, or "N/A" if the input is null.
+     */
     private String truncateText(String text, int maxLength) {
         if (text == null) return "N/A";
         if (text.length() <= maxLength) return text;
         return text.substring(0, maxLength - 3) + "...";
     }
+
 
 
 }
