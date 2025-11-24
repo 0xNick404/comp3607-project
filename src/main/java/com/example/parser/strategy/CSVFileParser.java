@@ -9,7 +9,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.io.BufferedReader;
+import java.util.Arrays;
 import java.io.IOException;
 
 /**
@@ -32,9 +32,20 @@ public class CSVFileParser implements FileParserStrategy{
             /** Read first line */
             line = reader.readNext();
 
+            String header[] = {
+                "Category",
+                "Value",
+                "Question",
+                "OptionA",
+                "OptionB",
+                "OptionC",
+                "OptionD",
+                "CorrectAnswer"
+            };
+
             /** Make sure file is not empty and has correct headers */
             if(line == null) throw new IllegalArgumentException("File is empty");
-            if(!line.equals("Category,Value,Question,OptionA,OptionB,OptionC,OptionD,CorrectAnswer"))
+            if(!Arrays.equals(line,header))
                 throw new IllegalArgumentException("File has wrong columns: " + line);
 
             /** Run through following lines */
