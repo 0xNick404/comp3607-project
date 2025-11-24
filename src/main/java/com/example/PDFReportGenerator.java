@@ -1,3 +1,17 @@
+/**
+ * Generates a PDF report summarizing the final results and turn history
+ * of a Jeopardy game session. This implementation uses the iText 7 library
+ * to construct a formatted PDF document containing:
+ *
+ * <ul>
+ *   <li>Header with report title and generation timestamp</li>
+ *   <li>Final score ranking for all players</li>
+ *   <li>Turn-by-turn gameplay history</li>
+ * </ul>
+ *
+ * <p>The report is written to a user-specified file path, or automatically
+ * named using a timestamp if none is provided.</p>
+ */
 package com.example;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -18,6 +32,14 @@ import java.util.Optional;
 
 public class PDFReportGenerator implements  ReportGenerator {
 
+    /**
+     * Generates a complete PDF report for the given game session.
+     *
+     * @param session  the {@link GameEngine} session containing players and turn history
+     * @param filePath desired output file path; if null or empty, a timestamped name is used
+     * @throws ReportGenerationException if any I/O or PDF-writing failure occurs
+     */
+    
     @Override
     public void generateReport(GameEngine session, String filePath) throws ReportGenerationException {
        // File Path handling and PDF generation logic would go here
@@ -49,6 +71,11 @@ public class PDFReportGenerator implements  ReportGenerator {
               throw new ReportGenerationException("Failed to create PDF report: " + filePath, e); 
     }
 }
+    /**
+     * Writes the title header and timestamp to the PDF.
+     *
+     * @param document the active iText {@link Document}
+     */
     private void writeHeader(Document document) {
         document.add(new Paragraph("UWI COMP3607 JEOPARDY GAME - FINAL REPORT")
                 .setTextAlignment(TextAlignment.CENTER)
@@ -60,7 +87,14 @@ public class PDFReportGenerator implements  ReportGenerator {
 
          document.add(new Paragraph("\n" + "=".repeat(80) + "\n"));
     }
-
+/**
+     * Writes the final scoreboard table, ranking players from highest to lowest score.
+     * The top player is marked as the winner (if score is positive).
+     *
+     * @param document the PDF document being written to
+     * @param players  the list of players participating in the session
+     */
+    
     private void writeFinalScores(Document document, List<Player> players){
         document.add(new Paragraph("FINAL SCORES")
                 .setFontSize(16)); 
@@ -94,7 +128,12 @@ public class PDFReportGenerator implements  ReportGenerator {
         document.add(table);
         document.add(new Paragraph("\n" + "=".repeat(80) + "\n"));
     }
-
+ /**
+     * Writes a detailed turn-by-turn gameplay history table.
+     *
+     * @param document the PDF document being written to
+     * @param turns    list of {@link GameTurn} objects representing game actions
+     */
     private void writeTurnByTurnHistory(Document document, List<GameTurn> turns){
         document.add(new Paragraph("TURN BY TURN HISTORY").setFontSize(15));
     
@@ -136,18 +175,34 @@ public class PDFReportGenerator implements  ReportGenerator {
     }
     document.add(table);
 }
-
+    
+/**
+     * Identifies the player with the highest score.
+     *
+     * @param players list of players
+     * @return an {@link Optional} containing the top-scoring player
+     */
+    
 private Optional<Player> findWinner(List<Player> players) {
     return players.stream()
             .max(Comparator.comparingInt(Player::getScore));
 
 }
-
+/**
+     * Utility method that truncates text if it exceeds a given max length,
+     * appending an ellipsis.
+     *
+     * @param text      the input string
+     * @param maxLength maximum allowed length
+     * @return truncated or original text
+     */
+    
 private String truncateText(String text, int maxLength) {
     if (text.length() <= maxLength) {
         return text;
     }
     return text.substring(0, maxLength - 3) + "...";
 }
+
 
 }
