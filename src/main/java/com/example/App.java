@@ -16,13 +16,14 @@ public class App{
      * @param args CLI arguments passed to the app
      */
     public static void main(String[] args){
+        GameEngine engine = null;
         try{
             QuestionLoader load = new QuestionLoader();
             List<Question> questions = load.initQuestions();
 
             System.out.println("\nWelcome to Jeopardy!\n");
 
-            GameEngine engine = new GameEngine(questions);
+            engine = new GameEngine(questions);
 
             while(engine.isRunning()){
                 engine.getGameState().loadGameState(engine);
@@ -32,5 +33,10 @@ public class App{
         catch(Exception e){
             e.printStackTrace();
         }
+
+        if(engine != null){
+            ReportExecutor.executeReports(engine);
+        }
     }
+
 }

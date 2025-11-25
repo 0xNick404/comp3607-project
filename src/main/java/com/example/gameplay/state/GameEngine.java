@@ -3,9 +3,12 @@ package com.example.gameplay.state;
 import com.example.gameplay.factory.PlayerInitFactory;
 import com.example.model.Player;
 import com.example.model.Question;
+import com.example.model.GameTurn;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Context
@@ -16,6 +19,7 @@ public class GameEngine {
     private Scanner scanner;
     private List<Player> players;
     private List<Question> questions;
+    private List<GameTurn> turns = new ArrayList<>();
     private int currentPlayer;
     private Question currentQuestion;
     private String playerInput;
@@ -113,5 +117,9 @@ public class GameEngine {
             return false;
         else
             return true;
+    }
+
+    public List<GameTurn> getTurns(){
+        return Collections.unmodifiableList(turns);
     }
 }
