@@ -1,4 +1,4 @@
-package com.jeopardy.logging;
+package com.example.logging;
 
 import java.time.Instant;
 
@@ -69,3 +69,4 @@ public class EventRecord {
         return scoreAfterPlay;
     }
 }
+
