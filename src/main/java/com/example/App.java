@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Main class to launch the Jeopardy application
  * @author Nicholas Grimes
+ * @author Shiann Noriega
  */
 public class App{
     /**
@@ -16,27 +17,23 @@ public class App{
      * @param args CLI arguments passed to the app
      */
     public static void main(String[] args){
-        GameEngine engine = null;
         try{
             QuestionLoader load = new QuestionLoader();
             List<Question> questions = load.initQuestions();
 
             System.out.println("\nWelcome to Jeopardy!\n");
 
-            engine = new GameEngine(questions);
+            GameEngine engine = new GameEngine(questions);
 
             while(engine.isRunning()){
                 engine.getGameState().loadGameState(engine);
                 engine.nextGameState();
             }
+
+            ReportExecutor.executeReports(engine);
         }
         catch(Exception e){
             e.printStackTrace();
         }
-
-        if(engine != null){
-            ReportExecutor.executeReports(engine);
-        }
     }
-
 }
