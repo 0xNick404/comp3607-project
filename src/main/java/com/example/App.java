@@ -1,8 +1,8 @@
 package com.example;
 
-import com.example.parser.QuestionLoader;
 import com.example.parser.strategy.FileParserContext;
 import com.example.model.Question;
+import com.example.parser.QuestionLoader;
 import com.example.gameplay.state.GameEngine;
 
 import java.io.InputStream;
@@ -11,13 +11,12 @@ import java.util.List;
 
 /**
  * Main class to launch the Jeopardy application
- * @author 0xNick404
+ * @author Nicholas Grimes
  */
-
 public class App{
     /**
      * Main launching point
-     * @param args
+     * @param args CLI arguments passed to the app
      */
     public static void main(String[] args){
         try{
