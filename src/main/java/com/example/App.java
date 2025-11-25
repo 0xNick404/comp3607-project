@@ -1,13 +1,10 @@
 package com.example;
 
-import com.example.parser.strategy.FileParserContext;
 import com.example.model.Question;
 import com.example.parser.QuestionLoader;
 import com.example.gameplay.state.GameEngine;
 
-import java.io.InputStream;
 import java.util.List;
-
 
 /**
  * Main class to launch the Jeopardy application
@@ -20,9 +17,8 @@ public class App{
      */
     public static void main(String[] args){
         try{
-            FileParserContext handler = new FileParserContext();
-            InputStream inputStream = App.class.getResourceAsStream("/" + handler.getFileName());
-            List<Question> questions = QuestionLoader.initQuestions(handler, handler.getFileName(), inputStream);
+            QuestionLoader load = new QuestionLoader();
+            List<Question> questions = load.initQuestions();
 
             System.out.println("\nWelcome to Jeopardy!\n");
 
