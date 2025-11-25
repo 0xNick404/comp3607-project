@@ -28,6 +28,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.gameplay.state.GameEngine;
+import com.example.model.Player;
+import com.example.model.GameTurn;
+
+
 
 
 public class PDFReportGenerator implements  ReportGenerator {

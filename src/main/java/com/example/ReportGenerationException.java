@@ -7,6 +7,8 @@ package com.example;
  * file writing, formatting, or data retrieval while producing game reports.</p>
  */
 
+import java.io.IOException;
+
 public class ReportGenerationException extends Exception {
     
 /**

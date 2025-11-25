@@ -21,6 +21,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.example.gameplay.state.GameEngine;
+import com.example.model.Player;
+import com.example.model.GameTurn;
+
+
 
 public class TXTReportGenerator implements ReportGenerator {
 
@@ -99,8 +104,8 @@ public class TXTReportGenerator implements ReportGenerator {
         writer.println("--- GAME SUMMARY ---");
         writer.println("Total Players: " + session.getPlayers().size());
         writer.println("Total Turns: " + session.getTurns().size());
-        writer.println("Game Started: " + session.getStartTime()); 
-        writer.println("Game Ended: " + session.getEndTime()); 
+
+       
         writer.println("--------------------\n");
     }
 

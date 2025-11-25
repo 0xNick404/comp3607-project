@@ -8,6 +8,10 @@
 
 package com.example;
 
+import com.example.gameplay.state.GameEngine;
+import com.example.ReportGenerationException;
+
+
 public interface ReportGenerator{
 
   /**
@@ -20,6 +24,6 @@ public interface ReportGenerator{
      * @param filePath The output path for the generated report. May be null or blank.
      * @throws ReportGenerationException If any error occurs during report creation or writing.
      */
-  public void generateReport (GameEngine session, String filePath) throws ReportGenerationException;
+  public void generateReport(GameEngine session, String filePath) throws ReportGenerationException;
 
 }
