@@ -1,4 +1,4 @@
-package com.jeopardy.logging;
+package com.example.logging;
 
 import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
@@ -60,3 +60,4 @@ public class CSVEventLogger implements EventListener {
         return s;
     }
 }
+
