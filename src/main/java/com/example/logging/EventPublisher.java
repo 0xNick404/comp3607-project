@@ -1,4 +1,4 @@
-package com.jeopardy.logging;
+package com.example.logging;
 
 public interface EventPublisher {
     void registerListener(EventListener listener);
@@ -6,4 +6,5 @@ public interface EventPublisher {
     void unregisterListener(EventListener listener);
 
     void publish(EventRecord event);
+
 }
