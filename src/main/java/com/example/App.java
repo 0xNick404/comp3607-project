@@ -1,7 +1,7 @@
 package com.example;
 
-import com.example.model.Question;
 import com.example.parser.QuestionLoader;
+import com.example.model.Question;
 import com.example.gameplay.state.GameEngine;
 
 import java.util.List;
@@ -30,6 +30,7 @@ public class App{
                 engine.nextGameState();
             }
 
+            engine.getGameState().loadGameState(engine);
             ReportExecutor.executeReports(engine);
         }
         catch(Exception e){
