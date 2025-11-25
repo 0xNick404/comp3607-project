@@ -1,4 +1,4 @@
-package com.jeopardy.logging;
+package com.example.logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,4 +25,5 @@ public class SimpleEventPublisher implements EventPublisher {
             l.onEvent(event);
         }
     }
+
 }
