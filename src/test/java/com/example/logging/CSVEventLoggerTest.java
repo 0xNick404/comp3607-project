@@ -2,50 +2,44 @@ package com.example.logging;
 
 // import com.example.logging.CSVEventLogger;
 // import com.example.logging.EventRecord;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for CSVEventLogger class.
+ * Tests file creation, event writing, and null value handling.
+ * 
+ * @author Mahaveer Ragbir
+ */
 public class CSVEventLoggerTest {
 
     private String testFile = "test_log.csv";
 
-    @AfterEach
-    public void cleanup() {
-        // Delete test file after each test
-        File file = new File(testFile);
-        if (file.exists()) {
-            file.delete();
-        }
-    }
-
-    /** 
-     * @throws Exception
-     * 
-     */
     @Test
     public void loggerCreatesFileWithHeader() throws Exception {
+        System.out.println("Current directory: " + new File(".").getAbsolutePath());
+
         // CSVEventLogger logger = new CSVEventLogger(testFile);
 
+        // Check if file was created immediately after constructor
         File file = new File(testFile);
-        assertTrue(file.exists());
+        System.out.println("File exists after constructor: " + file.exists());
+        System.out.println("File absolute path: " + file.getAbsolutePath());
+
+        assertTrue(file.exists(), "CSV file should be created");
 
         BufferedReader reader = new BufferedReader(new FileReader(testFile));
         String header = reader.readLine();
         reader.close();
 
-        assertTrue(header.contains("Case_ID"));
-        assertTrue(header.contains("Player_ID"));
+        assertTrue(header.contains("Case_ID"), "Header should contain Case_ID");
+        assertTrue(header.contains("Player_ID"), "Header should contain Player_ID");
     }
 
-    /** 
-     * @throws Exception
-     */
     @Test
     public void onEventWritesEventToFile() throws Exception {
         CSVEventLogger logger = new CSVEventLogger(testFile);
@@ -61,13 +55,10 @@ public class CSVEventLoggerTest {
         String eventLine = reader.readLine();
         reader.close();
 
-        assertTrue(eventLine.contains("case-1"));
-        assertTrue(eventLine.contains("START_GAME"));
+        assertTrue(eventLine.contains("case-1"), "Event line should contain case ID");
+        assertTrue(eventLine.contains("START_GAME"), "Event line should contain activity");
     }
 
-    /** 
-     * @throws Exception
-     */
     @Test
     public void multipleEventsAreWritten() throws Exception {
         CSVEventLogger logger = new CSVEventLogger(testFile);
@@ -89,13 +80,10 @@ public class CSVEventLoggerTest {
         String line2 = reader.readLine();
         reader.close();
 
-        assertTrue(line1.contains("START_GAME"));
-        assertTrue(line2.contains("SELECT_CATEGORY"));
+        assertTrue(line1.contains("START_GAME"), "First line should contain START_GAME");
+        assertTrue(line2.contains("SELECT_CATEGORY"), "Second line should contain SELECT_CATEGORY");
     }
 
-    /** 
-     * @throws Exception
-     */
     @Test
     public void onEventHandlesNullValues() throws Exception {
         CSVEventLogger logger = new CSVEventLogger(testFile);
@@ -106,8 +94,7 @@ public class CSVEventLoggerTest {
 
         logger.onEvent(event);
 
-        // Should not crash
         File file = new File(testFile);
-        assertTrue(file.exists());
+        assertTrue(file.exists(), "File should exist after logging event with null values");
     }
 }
