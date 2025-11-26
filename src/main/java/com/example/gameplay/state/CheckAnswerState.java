@@ -17,7 +17,10 @@ public class CheckAnswerState implements GameState {
             gameEngine.setAnswerCorrect(false);
         }
 
-        // Log the answer check result
+        /**
+         * Logs the answer check result
+         * 
+         */
         String result = gameEngine.isAnswerCorrect() ? "CORRECT" : "INCORRECT";
         gameEngine.publishEvent(
                 gameEngine.getCurrentPlayer().getName(),
