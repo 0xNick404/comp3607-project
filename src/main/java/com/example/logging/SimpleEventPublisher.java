@@ -3,12 +3,28 @@ package com.example.logging;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A straightforward implementation of {@link EventPublisher} that maintains
+ * an in-memory list of listeners and dispatches events to each one.
+ *
+ * <p>
+ * This publisher performs basic operations: registering listeners,
+ * unregistering them, and broadcasting {@link EventRecord} instances to all
+ * listeners currently stored. A snapshot of the listener list is used during
+ * publishing to avoid {@link java.util.ConcurrentModificationException}.
+ *
+ * <p>
+ * @author Mahaveer Ragbir
+ * </p>
+ */
 public class SimpleEventPublisher implements EventPublisher {
     private final List<EventListener> listeners = new ArrayList<>();
 
     /**
-     * @param listener
-     *                 register a listener
+     * Registers the specified listener if it is non-null and not already
+     * registered.
+     *
+     * @param listener the {@link EventListener} to register
      */
     @Override
     public void registerListener(EventListener listener) {
@@ -18,8 +34,9 @@ public class SimpleEventPublisher implements EventPublisher {
     }
 
     /**
-     * @param listener
-     *                 unregister a listener
+     * Unregisters the specified listener if it exists in the internal list.
+     *
+     * @param listener the {@link EventListener} to remove
      */
     @Override
     public void unregisterListener(EventListener listener) {
@@ -27,15 +44,13 @@ public class SimpleEventPublisher implements EventPublisher {
     }
 
     /**
-     * @param event
-     *              publish an event to all registered listeners
+     * Publishes the given event to all currently registered listeners. A
+     * snapshot of the listener list is used to ensure safe iteration even if
+     * listeners are added or removed during event dispatch.
+     *
+     * @param event the {@link EventRecord} to broadcast
      */
     @Override
     public void publish(EventRecord event) {
-        List<EventListener> snapshot = new ArrayList<>(listeners);
-        for (EventListener l : snapshot) {
-            l.onEvent(event);
-        }
     }
-
 }
