@@ -1,38 +1,32 @@
-package com.example.gameplay.state;
+package com.example.gameplay.factory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.example.model.Player;
 
 /**
  * 
  */
-public class AcceptAnswerState implements GameState {
-    @Override
-    public void loadGameState(GameEngine gameEngine) {
-        System.out.print("\nWhat is your answer? ");
-        String input = gameEngine.getPlayerInput();
-        gameEngine.setInput(input);
 
-        /**
-         * Logs the player's answer submission event with game details
-         * including category, question value, and current score
-         * 
-         */
-        gameEngine.publishEvent(
-                gameEngine.getCurrentPlayer().getName(),
-                "ANSWER_QUESTION",
-                gameEngine.getCurrentQuestion().getCategory(),
-                gameEngine.getCurrentQuestion().getValue(),
-                input, // This is the player's answer
-                null,
-                gameEngine.getCurrentPlayer().getScore());
-    }
+public class PlayerInitFactory{
+    private final static Scanner input = new Scanner(System.in);
 
-    @Override
-    public void nextGameState(GameEngine gameEngine) {
-        String input = gameEngine.getInput();
+    public static List<Player> createPlayers(){
+        List<Player> players = new ArrayList<>();
 
-        if (input.equalsIgnoreCase("quit")) {
-            gameEngine.setGameState(new GameOverState());
-        } else {
-            gameEngine.setGameState(new CheckAnswerState());
+        System.out.print("Enter number of players for this game (1-4): ");
+        int numPlayers = Integer.parseInt(input.nextLine());
+        
+        for(int i = 1; i <= numPlayers; i++){
+            System.out.print("Enter name for Player " + i + ": ");
+            String name = input.nextLine();
+
+            Player p = PlayerFactory.createPlayer(i, name);
+            players.add(p);
         }
+
+        return players;
     }
 }
