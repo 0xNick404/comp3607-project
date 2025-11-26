@@ -60,21 +60,5 @@ mvn clean package
 java -jar target/comp3607-jeopardy-1.0-SNAPSHOT.jar
 ```
 
-4. Run Unit Tests
-- Run All Tests
-```bash
-mvn test
-```
-
-- Run Specific Test Classes
-```bash
-mvn test -Dtest=class_name
-```
-
-- Run Specific Test Class Methods
-```bash
-mvn test -Dtest="class_name#method_name"
-```
-
 
 [Back to top](#top)
