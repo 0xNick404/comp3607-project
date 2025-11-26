@@ -1,61 +1,63 @@
 package com.example.logging;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
 
 public class CSVEventLogger implements EventListener {
-    private String filename;
+    private final PrintWriter writer;
+    private static final DateTimeFormatter ISO = DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC);
 
-    public CSVEventLogger(String filename) {
-        this.filename = filename;
-        writeHeader();
+    public CSVEventLogger(PrintWriter writer) {
+        this.writer = writer;
+        writer.println(
+                "Case_ID,Player_ID,Activity,Timestamp,Category,Question_Value,Answer_Given,Result,Score_After_Play");
+        writer.flush();
     }
 
-    // Write CSV header
-    private void writeHeader() {
-        // try catch block to handle file writing exceptions
-        try {
-            FileWriter writer = new FileWriter(filename, false); // false = overwrite
-            writer.write(
-                    "Case_ID,Player_ID,Activity,Timestamp,Category,Question_Value,Answer_Given,Result,Score_After_Play\n");
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error writing header: " + e.getMessage());
-        }
-    }
-
-    /**
-     * @param event
-     *              onEvent method to log event details into CSV file
-     */
     @Override
     public void onEvent(EventRecord event) {
-        try {
-            FileWriter writer = new FileWriter(filename, true); // true = append
+        String line = toCsvLine(event);
+        writer.println(line);
+        writer.flush();
+    }
 
-            String caseId = event.getCaseId() != null ? event.getCaseId() : "";
-            String playerId = event.getPlayerId() != null ? event.getPlayerId() : "";
-            String activity = event.getActivity() != null ? event.getActivity() : "";
+    private String toCsvLine(EventRecord e) {
+        String caseId = safe(e.getCaseId());
+        String playerId = safe(e.getPlayerId());
+        String activity = safe(e.getActivity());
+        String timestamp = e.getTimestamp() == null ? "" : ISO.format(e.getTimestamp());
+        String category = safe(e.getCategory());
+        String qValue = e.getQuestionValue() == null ? "" : e.getQuestionValue().toString();
+        String answer = safe(e.getAnswerGiven());
+        String result = safe(e.getResult());
+        String score = e.getScoreAfterPlay() == null ? "" : e.getScoreAfterPlay().toString();
 
-            String timestamp = "";
-            if (event.getTimestamp() != null) {
-                timestamp = event.getTimestamp().toString();
-            }
+        return String.join(",",
+                csvEscape(caseId),
+                csvEscape(playerId),
+                csvEscape(activity),
+                csvEscape(timestamp),
+                csvEscape(category),
+                csvEscape(qValue),
+                csvEscape(answer),
+                csvEscape(result),
+                csvEscape(score));
+    }
 
-            String category = event.getCategory() != null ? event.getCategory() : "";
-            String questionValue = event.getQuestionValue() != null ? event.getQuestionValue().toString() : "";
-            String answerGiven = event.getAnswerGiven() != null ? event.getAnswerGiven() : "";
-            String result = event.getResult() != null ? event.getResult() : "";
-            String score = event.getScoreAfterPlay() != null ? event.getScoreAfterPlay().toString() : "";
+    private String safe(String s) {
+        return s == null ? "" : s;
+    }
 
-            String line = caseId + "," + playerId + "," + activity + "," + timestamp + "," +
-                    category + "," + questionValue + "," + answerGiven + "," + result + "," + score + "\n";
-
-            writer.write(line);
-            writer.close();
-
-        } catch (IOException e) {
-            System.out.println("Error writing event: " + e.getMessage());
+    private String csvEscape(String s) {
+        if (s == null || s.isEmpty())
+            return "";
+        boolean needQuotes = s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r");
+        if (needQuotes) {
+            String replaced = s.replace("\"", "\"\"");
+            return "\"" + replaced + "\"";
         }
+        return s;
     }
 }
+

@@ -3,31 +3,22 @@ package com.example.gameplay.state;
 /**
  * 
  */
-public class AcceptAnswerState implements GameState {
+public class AcceptAnswerState implements GameState{
     @Override
     public void loadGameState(GameEngine gameEngine) {
-        System.out.print("\nWhat is your answer? ");
+        System.out.print("\nWhat is ");
         String input = gameEngine.getPlayerInput();
         gameEngine.setInput(input);
-
-        // Log the answer submission
-        gameEngine.publishEvent(
-                gameEngine.getCurrentPlayer().getName(),
-                "ANSWER_QUESTION",
-                gameEngine.getCurrentQuestion().getCategory(),
-                gameEngine.getCurrentQuestion().getValue(),
-                input, // This is the player's answer
-                null,
-                gameEngine.getCurrentPlayer().getScore());
     }
-
+    
     @Override
     public void nextGameState(GameEngine gameEngine) {
         String input = gameEngine.getInput();
 
-        if (input.equalsIgnoreCase("quit")) {
+        if(input.equalsIgnoreCase("quit")){
             gameEngine.setGameState(new GameOverState());
-        } else {
+        }
+        else{
             gameEngine.setGameState(new CheckAnswerState());
         }
     }
