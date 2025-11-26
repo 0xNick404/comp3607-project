@@ -19,7 +19,10 @@ public class AskQuestionState implements GameState {
             System.out.println(labels[i] + ") " + options[i]);
         }
 
-        // Log that the question is being asked
+        /**
+         * Logs the question being asked
+         * 
+         */
         gameEngine.publishEvent(
                 gameEngine.getCurrentPlayer().getName(),
                 "ASK_QUESTION",
