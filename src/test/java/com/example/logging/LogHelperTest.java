@@ -1,14 +1,15 @@
 package com.example.logging;
 
-// import com.example.logging.LogHelper;
-// import com.example.logging.SimpleEventListener;
-// import com.example.logging.SimpleEventPublisher;
-// import com.example.logging.SimpleEventListener;
-
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for LogHelper class.
+ * Tests event publishing, timestamp setting, and null publisher handling.
+ * 
+ * @author Mahaveer Ragbir
+ */
 public class LogHelperTest {
 
     @Test
@@ -28,13 +29,12 @@ public class LogHelperTest {
                 null,
                 null);
 
-        assertEquals(1, listener.getEvents().size());
-        assertEquals("START_GAME", listener.getEvents().get(0).getActivity());
+        assertEquals(1, listener.getEvents().size(), "One event should be published");
+        assertEquals("START_GAME", listener.getEvents().get(0).getActivity(), "Event activity should match");
     }
 
     @Test
     public void publishEventHandlesNullPublisher() {
-        // Should not crash
         LogHelper.publishEvent(
                 null,
                 "case-1",
@@ -42,7 +42,7 @@ public class LogHelperTest {
                 "START_GAME",
                 null, null, null, null, null);
 
-        assertTrue(true); // No exception thrown
+        assertTrue(true);
     }
 
     @Test
@@ -58,10 +58,14 @@ public class LogHelperTest {
                 null, null, null, null, null);
 
         Instant after = Instant.now();
+
+        /** Check that events were received */
+        assertFalse(listener.getEvents().isEmpty(), "Events list should not be empty");
+
         Instant eventTime = listener.getEvents().get(0).getTimestamp();
 
-        // Timestamp should be between before and after
-        assertFalse(eventTime.isBefore(before));
-        assertFalse(eventTime.isAfter(after));
+      
+        assertFalse(eventTime.isBefore(before), "Event timestamp should not be before test start");
+        assertFalse(eventTime.isAfter(after), "Event timestamp should not be after test end");
     }
 }
