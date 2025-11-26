@@ -25,11 +25,10 @@ public class Question{
     public Question(String category, String value, String questionText, String[] options, String correctAnswer){
         this.category = category;
 
-        try{
+        try {
             this.value = Integer.parseInt(value);
-        }
-        catch(NumberFormatException e){
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            this.value = 0;
         }
 
         this.questionText = questionText;

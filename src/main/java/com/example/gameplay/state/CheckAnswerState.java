@@ -16,17 +16,29 @@ public class CheckAnswerState implements GameState{
         String playerInput = gameEngine.getInput();
         String correctAnswer = gameEngine.getCurrentQuestion().getCorrectAnswer();
 
-        if(playerInput.equalsIgnoreCase(correctAnswer)){
+        if (playerInput.equalsIgnoreCase(correctAnswer)) {
             System.out.println("\nCORRECT!");
             gameEngine.setAnswerCorrect(true);
-        }
-        else{
+        } else {
             System.out.println("\nWRONG! The correct answer was: " + correctAnswer);
             gameEngine.setAnswerCorrect(false);
         }
-        
+
+        /**
+         * Logs the answer check result
+         * 
+         */
+        String result = gameEngine.isAnswerCorrect() ? "CORRECT" : "INCORRECT";
+        gameEngine.publishEvent(
+                gameEngine.getCurrentPlayer().getName(),
+                "CHECK_ANSWER",
+                gameEngine.getCurrentQuestion().getCategory(),
+                gameEngine.getCurrentQuestion().getValue(),
+                playerInput,
+                result,
+                gameEngine.getCurrentPlayer().getScore());
     }
-    
+
     /**
      * Transitions to the {@link UpdateScoreState} to compute point changes based on the correctness of the player's answer.
      * @param gameEngine the {@link GameEngine} used to transition states

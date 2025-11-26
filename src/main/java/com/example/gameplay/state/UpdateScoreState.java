@@ -19,16 +19,29 @@ public class UpdateScoreState implements GameState{
         Player player = gameEngine.getCurrentPlayer();
         int points = gameEngine.getCurrentQuestion().getValue();
 
-        if(gameEngine.isAnswerCorrect()){
+        if (gameEngine.isAnswerCorrect()) {
             player.updateScore(points);
-        }
-        else{
+        } else {
             player.updateScore(-points);
         }
 
         gameEngine.getCurrentQuestion().markPicked();
 
         System.out.println(player.getName() + " now has $" + player.getScore());
+
+        /**
+         * Log the updated score (post updates)
+         */
+        String result = gameEngine.isAnswerCorrect() ? "CORRECT" : "INCORRECT";
+        gameEngine.publishEvent(
+                player.getName(),
+                "SCORE_UPDATED",
+                gameEngine.getCurrentQuestion().getCategory(),
+                gameEngine.getCurrentQuestion().getValue(),
+                gameEngine.getInput(), // The answer that was given
+                result,
+                player.getScore() // score after update
+        );
 
         gameEngine.updatePlayerTurn();
     }

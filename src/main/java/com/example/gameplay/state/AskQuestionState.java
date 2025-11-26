@@ -20,10 +20,23 @@ public class AskQuestionState implements GameState{
         System.out.println("Question: " + q.getQuestionText());
 
         String[] options = q.getOptions();
-        String[] labels = {"A", "B", "C", "D"};
+        String[] labels = { "A", "B", "C", "D" };
         for (int i = 0; i < options.length; i++) {
             System.out.println(labels[i] + ") " + options[i]);
         }
+
+        /**
+         * Logs the question being asked
+         * 
+         */
+        gameEngine.publishEvent(
+                gameEngine.getCurrentPlayer().getName(),
+                "ASK_QUESTION",
+                q.getCategory(),
+                q.getValue(),
+                null,
+                null,
+                gameEngine.getCurrentPlayer().getScore());
     }
     
     /**
@@ -31,7 +44,7 @@ public class AskQuestionState implements GameState{
      * @param gameEngine the {@link GameEngine} managing the state transition
      */
     @Override
-    public void nextGameState(GameEngine gameEngine) {  
+    public void nextGameState(GameEngine gameEngine) {
         gameEngine.setGameState(new AcceptAnswerState());
     }
 }
