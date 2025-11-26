@@ -2,24 +2,30 @@ package com.example.parser.strategy;
 
 import com.example.model.Question;
 
-import java.util.List;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.IOException;
-
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import java.util.List;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
 /**
+ * Concrete class of {@link FileParserStrategy}.
  * Parses a JSON file and returns a list of Question objects.
  * Uses json-simple library.
+ * @author Nicholas Grimes
  */
-
 public class JSONFileParser implements FileParserStrategy{
+    /**
+     * Parses question data from a JSON-formatted input stream.
+     * @param inputStream the JSON data stream
+     * @return a list of parsed {@link Question} objects extracted from the JSON file
+     */
     @Override
     public List<Question> parse(InputStream inputStream){
         List<Question> questions = new ArrayList<>();

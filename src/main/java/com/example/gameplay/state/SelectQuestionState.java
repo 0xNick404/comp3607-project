@@ -1,13 +1,20 @@
 package com.example.gameplay.state;
 
-import java.util.List;
-
 import com.example.model.Question;
 
+import java.util.List;
+
 /**
- * 
+ * Concrete class displays a list of all available questions and waits for the player's choice.
+ * The state validates the player's input and either advances to the question asking phase or 
+ * re-prompts the player in case of invalid input.
+ * @author Nicholas Grimes
  */
 public class SelectQuestionState implements GameState{
+    /**
+     * Displays all categories and values for questions that have not yet been picked and prompts the player to make a selection.
+     * @param gameEngine the {@link GameEngine} providing question data
+     */
     @Override
     public void loadGameState(GameEngine gameEngine) {
         System.out.println("\n--- Available Questions ---");
@@ -23,6 +30,13 @@ public class SelectQuestionState implements GameState{
         System.out.print("Choose a Category and Value (e.g., 'Variables & Data Types,200'): ");
     }
 
+    /**
+     * Validates the player's input and transitions to the next game state accordingly.
+     * If the player types "quit", the game ends.
+     * If the input format is invalid, the state restarts.
+     * If a matching question is found, the game moves to the ask question state.
+     * @param gameEngine the {@link GameEngine} used to read input and change states
+     */
     @Override
     public void nextGameState(GameEngine gameEngine) {
         String input = gameEngine.getPlayerInput();

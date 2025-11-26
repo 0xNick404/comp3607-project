@@ -1,18 +1,22 @@
 package com.example.gameplay.factory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import com.example.model.Player;
 
-/**
- * 
- */
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Factory class responsible for initialising all players at the start of the game.
+ * @author Nicholas Grimes
+ */
 public class PlayerInitFactory{
     private final static Scanner input = new Scanner(System.in);
 
+    /**
+     * Prompts the user for the number of players and their names, creating and returning a list of initialised {@link Player} objects.
+     * @return a list of fully initialised players
+     */
     public static List<Player> createPlayers(){
         List<Player> players = new ArrayList<>();
 
