@@ -1,7 +1,7 @@
 package com.example.reporting;
 
-import com.example.PDFReportGenerator;
-import com.example.ReportGenerationException;
+import com.example.report.PDFReportGenerator;
+import com.example.report.ReportGenerationException;
 import com.example.gameplay.state.GameEngine;
 import com.example.model.Player;
 import com.example.model.Question;

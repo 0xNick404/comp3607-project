@@ -1,6 +1,6 @@
 package com.example.reporting;
 
-import com.example.ReportExecutor;
+import com.example.report.ReportExecutor;
 import com.example.gameplay.state.GameEngine;
 import com.example.model.Player;
 import com.example.model.Question;
