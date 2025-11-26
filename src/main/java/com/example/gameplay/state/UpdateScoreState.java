@@ -18,7 +18,9 @@ public class UpdateScoreState implements GameState {
 
         System.out.println(player.getName() + " now has $" + player.getScore());
 
-        // Log the score update (after the score has been updated)
+        /**
+         * Log the updated score (post updates)
+         */
         String result = gameEngine.isAnswerCorrect() ? "CORRECT" : "INCORRECT";
         gameEngine.publishEvent(
                 player.getName(),
