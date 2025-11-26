@@ -3,19 +3,34 @@ package com.example.logging;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Event listener implementation that logs events to a CSV file.
+ * Creates a CSV file with headers and appends event records as they occur.
+ * Each event is written as a new line in the CSV file with all event fields.
+ * 
+ * @author Mahaveer Ragbir
+ */
 public class CSVEventLogger implements EventListener {
     private String filename;
 
+    /**
+     * Constructs a new CSVEventLogger and initializes the CSV file with headers.
+     * If the file already exists, it will be overwritten.
+     * 
+     * @param filename the path and name of the CSV file to create
+     */
     public CSVEventLogger(String filename) {
         this.filename = filename;
         writeHeader();
     }
 
-    // Write CSV header
+    /**
+     * Writes the CSV header row to the file.
+     * This method overwrites any existing file content.
+     */
     private void writeHeader() {
-        // try catch block to handle file writing exceptions
         try {
-            FileWriter writer = new FileWriter(filename, false); // false = overwrite
+            FileWriter writer = new FileWriter(filename, false); 
             writer.write(
                     "Case_ID,Player_ID,Activity,Timestamp,Category,Question_Value,Answer_Given,Result,Score_After_Play\n");
             writer.close();
@@ -25,13 +40,16 @@ public class CSVEventLogger implements EventListener {
     }
 
     /**
-     * @param event
-     *              onEvent method to log event details into CSV file
+     * Logs an event record to the CSV file.
+     * Appends a new line to the CSV file containing all event fields.
+     * Null values are converted to empty strings.
+     * 
+     * @param event the event record to log
      */
     @Override
     public void onEvent(EventRecord event) {
         try {
-            FileWriter writer = new FileWriter(filename, true); // true = append
+            FileWriter writer = new FileWriter(filename, true); 
 
             String caseId = event.getCaseId() != null ? event.getCaseId() : "";
             String playerId = event.getPlayerId() != null ? event.getPlayerId() : "";
