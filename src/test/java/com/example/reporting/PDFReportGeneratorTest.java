@@ -1,7 +1,9 @@
-package com.example;
+package com.example.reporting;
 
+import com.example.PDFReportGenerator;
+import com.example.ReportGenerationException;
 import com.example.gameplay.state.GameEngine;
-import com.example.model.Player;
+// import com.example.model.Player;
 import com.example.model.Question;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
