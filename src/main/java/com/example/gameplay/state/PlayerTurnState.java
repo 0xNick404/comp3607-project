@@ -9,7 +9,9 @@ public class PlayerTurnState implements GameState {
         System.out.println("\nIt is " + gameEngine.getCurrentPlayer().getName() + "'s turn");
         System.out.println("Score: $" + gameEngine.getCurrentPlayer().getScore());
 
-        // Log player turn start
+        /**
+         * Log player turn start
+         */
         gameEngine.publishEvent(
                 gameEngine.getCurrentPlayer().getName(), 
                 "PLAYER_TURN_START",
