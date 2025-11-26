@@ -5,6 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for Player class.
+ * Tests player initialization, scoring, and state management.
+ * 
+ * @author Mahaveer Ragbir
+ */
 public class PlayerTest {
 
     private Player player;
