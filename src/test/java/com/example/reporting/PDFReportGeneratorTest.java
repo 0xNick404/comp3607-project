@@ -3,7 +3,7 @@ package com.example.reporting;
 import com.example.PDFReportGenerator;
 import com.example.ReportGenerationException;
 import com.example.gameplay.state.GameEngine;
-// import com.example.model.Player;
+import com.example.model.Player;
 import com.example.model.Question;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,10 +11,17 @@ import org.junit.jupiter.api.AfterEach;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for PDFReportGenerator class.
+ * Tests PDF file creation, extension handling, and error conditions.
+ * 
+ * @author Mahaveer Ragbir
+ */
 public class PDFReportGeneratorTest {
 
     private PDFReportGenerator generator;
@@ -31,8 +38,13 @@ public class PDFReportGeneratorTest {
         String[] options = { "A", "B", "C", "D" };
         questions.add(new Question("Science", "100", "Test question?", options, "A"));
 
-        // Create game engine
-        gameEngine = new GameEngine(questions, null, "test-case");
+        // Create test players without requiring input
+        List<Player> testPlayers = Arrays.asList(
+                new Player(1, "Test Player 1"),
+                new Player(2, "Test Player 2"));
+
+        // Use the test constructor
+        gameEngine = new GameEngine(questions, testPlayers, null, "test-case");
     }
 
     @AfterEach
