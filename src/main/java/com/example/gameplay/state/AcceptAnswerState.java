@@ -10,7 +10,11 @@ public class AcceptAnswerState implements GameState {
         String input = gameEngine.getPlayerInput();
         gameEngine.setInput(input);
 
-        // Log the answer submission
+        /**
+         * Logs the player's answer submission event with game details
+         * including category, question value, and current score
+         * 
+         */
         gameEngine.publishEvent(
                 gameEngine.getCurrentPlayer().getName(),
                 "ANSWER_QUESTION",
