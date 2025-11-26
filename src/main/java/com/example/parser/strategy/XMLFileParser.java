@@ -2,27 +2,33 @@ package com.example.parser.strategy;
 
 import com.example.model.Question;
 
-import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.io.IOException;
 
 /**
+ * Concrete class of {@link FileParserStrategy}.
  * Parses an XML file and returns a list of Question objects.
  * Uses the DOM (Document Object Model) approach for XML parsing.
+ * @author Nicholas Grimes
  */
-
 public class XMLFileParser implements FileParserStrategy{
+    /**
+     * Parses question data from an XML-formatted input stream.
+     * @param inputStream the XML data stream
+     * @return a list of parsed {@link Question} objects extracted from the XML file
+     */
     @Override
     public List<Question> parse(InputStream inputStream){
         List<Question> questions = new ArrayList<>();

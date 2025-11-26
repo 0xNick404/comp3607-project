@@ -9,6 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>comp3607-jeopardy</name>
+  <description>Group project for Object-Oriented Programming II at The UWI St. Augustine Campus done by Nicholas Grimes, Shiann Noriega and Mahaveer Ragbir. The project is an implementation of a Multi-Player Jeopardy Game application in Java. The game runs locally on one device and supports 1 to 4 players competing in turn-based gameplay. Game content is loaded from a provided file in CSV, JSON, or XML format. Each player selects a category and question amount, answers, and earns or loses points. At the end of the game, a summary report and a Process Mining event log are generated.</description>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -76,7 +77,6 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
@@ -126,12 +126,26 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
-        </plugin>
       </plugins>
-    </pluginManagement>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.2</version>
+        <configuration>
+          <show>private</show>
+          <doclint>none</doclint>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

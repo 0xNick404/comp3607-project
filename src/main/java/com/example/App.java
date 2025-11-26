@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.parser.QuestionLoader;
+import com.example.report.ReportExecutor;
 import com.example.model.Question;
 import com.example.gameplay.state.GameEngine;
 import com.example.logging.SimpleEventPublisher;

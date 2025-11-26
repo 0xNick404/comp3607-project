@@ -3,13 +3,19 @@ package com.example.gameplay.state;
 import com.example.model.Player;
 
 /**
- * 
+ * Concrete class for the final state that displays the final scoreboard, determines the winner and exits the program.
+ * @author Nicholas Grimes
  */
-public class GameOverState implements GameState {
+public class GameOverState implements GameState{
+    /**
+     * Prints the game-over header, displays each player's final score, and
+     * determines which player has the highest score to declare the winner.
+     * @param gameEngine the {@link GameEngine} providing access to all players and scores
+     */
     @Override
     public void loadGameState(GameEngine gameEngine) {
         System.out.println("\n--------------------------------");
-        System.out.println("       GAME OVER");
+        System.out.println("           GAME OVER");
         System.out.println("--------------------------------");
 
         int maxScore = Integer.MIN_VALUE;
@@ -26,8 +32,8 @@ public class GameOverState implements GameState {
             }
         }
 
-        if (winner != null) {
-            System.out.println("\nThe Winner is: " + winner.getName() + "!");
+        if (winner != null){
+            System.out.println("\nThe Winner is: " + winner.getName() + "!\n");
         }
 
         // Log report generation
@@ -51,6 +57,10 @@ public class GameOverState implements GameState {
                 null);
     }
 
+    /**
+     * Displays a closing message and terminates the program.
+     * @param gameEngine the {@link GameEngine} used to transition states
+     */
     @Override
     public void nextGameState(GameEngine gameEngine) {
         // Log game exit
