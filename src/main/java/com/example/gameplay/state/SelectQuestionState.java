@@ -50,7 +50,9 @@ public class SelectQuestionState implements GameState {
             return;
         }
 
-        // Log category selection
+        /**
+         * Log category selection
+         */
         gameEngine.publishEvent(
                 gameEngine.getCurrentPlayer().getName(),
                 "SELECT_CATEGORY",
@@ -63,7 +65,9 @@ public class SelectQuestionState implements GameState {
         Question selected = gameEngine.findQuestion(category, value);
 
         if (selected != null && !selected.hasBeenPicked()) {
-            // Log question selection
+            /**
+             * Log question selection
+             */
             gameEngine.publishEvent(
                     gameEngine.getCurrentPlayer().getName(),
                     "SELECT_QUESTION",
