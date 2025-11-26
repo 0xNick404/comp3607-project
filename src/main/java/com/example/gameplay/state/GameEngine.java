@@ -14,7 +14,9 @@ import java.util.Collections;
 
 /**
  * The controller for the game and Context Class in the State Design Pattern.
- * The {@link GameEngine} manages the flow of gameplay by delegating behavior to the current {@link GameState}.
+ * The {@link GameEngine} manages the flow of gameplay by delegating behavior to
+ * the current {@link GameState}.
+ * 
  * @author Nicholas Grimes
  * @author Shiann Noriega
  * @author Mahaveer Ragbir
@@ -34,19 +36,23 @@ public class GameEngine {
 
     /**
      * Constructor for testing or simple initialization without logging
-     * @param questions the list of questions that make up the current jeopardy game.
+     * 
+     * @param questions the list of questions that make up the current jeopardy
+     *                  game.
      */
-    public GameEngine(List<Question> questions){
+    public GameEngine(List<Question> questions) {
         this(questions, null, null);
     }
 
     /**
      * Constructor to initialise input handling, players, questions, and logging.
-     * @param questions the list of questions that make up the current jeopardy game.
+     * 
+     * @param questions the list of questions that make up the current jeopardy
+     *                  game.
      * @param publisher the event publisher for logging
-     * @param caseId the unique case ID for this game session
+     * @param caseId    the unique case ID for this game session
      */
-    public GameEngine(List<Question> questions, EventPublisher publisher, String caseId){
+    public GameEngine(List<Question> questions, EventPublisher publisher, String caseId) {
         this.scanner = new Scanner(System.in);
         this.players = PlayerInitFactory.createPlayers();
         this.currentPlayer = 0;
@@ -57,36 +63,59 @@ public class GameEngine {
     }
 
     /**
+     * Constructor for testing that allows pre-defined players without user input
+     * 
+     * @param questions the list of questions that make up the current jeopardy
+     *                  game.
+     * @param players   the list of players to use
+     * @param publisher the event publisher for logging
+     * @param caseId    the unique case ID for this game session
+     */
+    public GameEngine(List<Question> questions, List<Player> players, EventPublisher publisher, String caseId) {
+        this.scanner = new Scanner(System.in);
+        this.players = players;
+        this.currentPlayer = 0;
+        this.questions = questions;
+        this.publisher = publisher;
+        this.caseId = caseId;
+        this.game = new PlayerTurnState();
+    }
+
+    /**
      * Mutator Method for {@code private GameState game;}
      * Updates the current game state.
+     * 
      * @param gameState the new {@link GameState} to delegate behavior to
      */
-    public void setGameState(GameState gameState){
+    public void setGameState(GameState gameState) {
         this.game = gameState;
     }
 
     /**
      * Accessor Method for {@code private GameState game;}
      * Returns the active game state.
+     * 
      * @return the current {@link GameState}
      */
-    public GameState getGameState(){
+    public GameState getGameState() {
         return this.game;
     }
 
     /**
-     * Invokes the next logical state transition. The concrete state class determines
+     * Invokes the next logical state transition. The concrete state class
+     * determines
      * what the next state should be and updates the game engine accordingly.
      */
-    public void nextGameState(){
+    public void nextGameState() {
         this.game.nextGameState(this);
     }
 
     /**
      * Returns the player whose turn it currently is.
+     * 
      * @return the active {@link Player}
      */
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return players.get(currentPlayer);
     }
 
@@ -94,9 +123,9 @@ public class GameEngine {
      * Advances the turn to the next player in the sequence.
      * Wraps back to the first player when the end of the player list is reached.
      */
-    public void updatePlayerTurn(){
+    public void updatePlayerTurn() {
         currentPlayer++;
-        if(currentPlayer >= players.size()){
+        if (currentPlayer >= players.size()) {
             currentPlayer = 0;
         }
     }
@@ -104,19 +133,22 @@ public class GameEngine {
     /**
      * Accessor Method for {@code private List<Question> questions;}
      * Returns all questions stored in list.
+     * 
      * @return the list of {@link Question} objects
      */
-    public List<Question> getQuestions(){
+    public List<Question> getQuestions() {
         return this.questions;
     }
 
     /**
      * Determines whether every question in the list has been picked.
-     * @return {@code true} if all questions have been answered, otherwise {@code false}
+     * 
+     * @return {@code true} if all questions have been answered, otherwise
+     *         {@code false}
      */
-    public boolean areAllQuestionsAnswered(){
-        for(Question q : questions){
-            if(!q.hasBeenPicked()){
+    public boolean areAllQuestionsAnswered() {
+        for (Question q : questions) {
+            if (!q.hasBeenPicked()) {
                 return false;
             }
         }
@@ -126,13 +158,14 @@ public class GameEngine {
 
     /**
      * Searches for a question by category and point value.
+     * 
      * @param category the question category to search for
-     * @param value the point value to search for
+     * @param value    the point value to search for
      * @return the matching {@link Question}, or {@code null} if it is not found
      */
-    public Question findQuestion(String category, int value){
-        for(Question q : questions){
-            if(q.getCategory().equalsIgnoreCase(category) && q.getValue() == value){
+    public Question findQuestion(String category, int value) {
+        for (Question q : questions) {
+            if (q.getCategory().equalsIgnoreCase(category) && q.getValue() == value) {
                 return q;
             }
         }
@@ -143,79 +176,90 @@ public class GameEngine {
     /**
      * Mutator Method for {@code private Question currentQuestion;}
      * Sets the current chosen question.
+     * 
      * @param q the question selected by the player
      */
-    public void setCurrentQuestion(Question q){
+    public void setCurrentQuestion(Question q) {
         this.currentQuestion = q;
     }
 
     /**
      * Accessor Method for {@code private Question currentQuestion;}
      * Returns the currently selected question.
+     * 
      * @return the active {@link Question}
      */
-    public Question getCurrentQuestion(){
+    public Question getCurrentQuestion() {
         return this.currentQuestion;
     }
 
     /**
      * Reads input from the console for the active player.
+     * 
      * @return the player's raw text input
      */
-    public String getPlayerInput(){
+    public String getPlayerInput() {
         return scanner.nextLine();
     }
 
     /**
      * Mutator Method for {@code private String playerInput;}
+     * 
      * @param input the String input from the player
      */
-    public void setInput(String input){
+    public void setInput(String input) {
         this.playerInput = input;
     }
 
     /**
      * Accessor Method for {@code private String playerInput;}
      * Returns the most recently stored player input.
+     * 
      * @return the player's input string
      */
-    public String getInput(){
+    public String getInput() {
         return this.playerInput;
     }
 
     /**
      * Mutator Method for {@code private boolean isAnswerCorrect;}
      * Records whether the player's answer to the current question was correct.
-     * @param correct {@code true} if the answer was correct, otherwise {@code false}
+     * 
+     * @param correct {@code true} if the answer was correct, otherwise
+     *                {@code false}
      */
-    public void setAnswerCorrect(boolean correct){
+    public void setAnswerCorrect(boolean correct) {
         this.isAnswerCorrect = correct;
     }
 
     /**
      * Returns whether the player's answer was correct.
+     * 
      * @return {@code true} if the answer was correct, otherwise {@code false}
      */
-    public boolean isAnswerCorrect(){
+    public boolean isAnswerCorrect() {
         return this.isAnswerCorrect;
     }
 
     /**
      * Accessor Method for {@code private List<Player> players;}
      * Returns the list of all players participating in the game.
+     * 
      * @return a list of {@link Player} objects
      */
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return players;
     }
 
     /**
-     * Indicates whether the game should continue running. The game is considered finished
+     * Indicates whether the game should continue running. The game is considered
+     * finished
      * when the current state is an instance of {@link GameOverState}.
+     * 
      * @return {@code true} if the game is still active, {@code false} otherwise
      */
     public boolean isRunning() {
-        if(this.game instanceof GameOverState)
+        if (this.game instanceof GameOverState)
             return false;
         else
             return true;
@@ -224,21 +268,24 @@ public class GameEngine {
     /**
      * Accessor Method for {@code private List<GameTurn> turns;}
      * Returns an unmodifiable list of all game turns.
+     * 
      * @return an unmodifiable list of {@link GameTurn} objects
      */
-    public List<GameTurn> getTurns(){
+    public List<GameTurn> getTurns() {
         return Collections.unmodifiableList(turns);
     }
-    
+
     /**
      * Helper method to log game events using the event publisher.
      * If no publisher is set, this method does nothing.
-     * @param playerId the ID of the player involved in the event
-     * @param activity the type of activity being logged
-     * @param category the question category (if applicable)
-     * @param questionValue the point value of the question (if applicable)
-     * @param answerGiven the answer provided by the player (if applicable)
-     * @param result the result of the answer (CORRECT/INCORRECT, if applicable)
+     * 
+     * @param playerId       the ID of the player involved in the event
+     * @param activity       the type of activity being logged
+     * @param category       the question category (if applicable)
+     * @param questionValue  the point value of the question (if applicable)
+     * @param answerGiven    the answer provided by the player (if applicable)
+     * @param result         the result of the answer (CORRECT/INCORRECT, if
+     *                       applicable)
      * @param scoreAfterPlay the player's score after this event
      */
     public void publishEvent(String playerId,
@@ -257,6 +304,7 @@ public class GameEngine {
     /**
      * Accessor Method for {@code private EventPublisher publisher;}
      * Returns the event publisher used for logging.
+     * 
      * @return the {@link EventPublisher} instance, or null if not set
      */
     public EventPublisher getPublisher() {
@@ -266,6 +314,7 @@ public class GameEngine {
     /**
      * Accessor Method for {@code private String caseId;}
      * Returns the unique case ID for this game session.
+     * 
      * @return the case ID string
      */
     public String getCaseId() {
