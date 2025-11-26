@@ -33,38 +33,65 @@ public class EventRecord {
         this.scoreAfterPlay = scoreAfterPlay;
     }
 
+    /** 
+     * @return String
+     */
     public String getCaseId() {
         return caseId;
     }
 
+    /** 
+     * @return String
+     */
     public String getPlayerId() {
         return playerId;
     }
 
+    /** 
+     * @return String
+     */
     public String getActivity() {
         return activity;
     }
 
+    /** 
+     * @return Instant
+     */
     public java.time.Instant getTimestamp() {
         return timestamp;
     }
 
+    /** 
+     * @return String
+     */
     public String getCategory() {
         return category;
     }
 
+    /** 
+     * @return Integer
+     */
     public Integer getQuestionValue() {
         return questionValue;
     }
 
+    /** 
+     * @return String
+     */
     public String getAnswerGiven() {
         return answerGiven;
     }
 
+    /** 
+     * @return String
+     */
     public String getResult() {
         return result;
     }
 
+    /** 
+     * @return Integer
+     */
     public Integer getScoreAfterPlay() {
         return scoreAfterPlay;
     }

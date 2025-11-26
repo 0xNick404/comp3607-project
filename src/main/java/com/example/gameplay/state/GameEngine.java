@@ -4,6 +4,8 @@ import com.example.gameplay.factory.PlayerInitFactory;
 import com.example.model.Player;
 import com.example.model.Question;
 import com.example.model.GameTurn;
+import com.example.logging.EventPublisher;
+import com.example.logging.LogHelper;
 
 import java.util.List;
 import java.util.Scanner;
@@ -212,4 +214,29 @@ public class GameEngine {
     public List<GameTurn> getTurns(){
         return Collections.unmodifiableList(turns);
     }
+    
+    /**
+     * helper method to log game events
+     */
+    public void publishEvent(String playerId,
+            String activity,
+            String category,
+            Integer questionValue,
+            String answerGiven,
+            String result,
+            Integer scoreAfterPlay) {
+        if (publisher == null)
+            return;
+        LogHelper.publishEvent(publisher, caseId, playerId, activity, category, questionValue, answerGiven, result,
+                scoreAfterPlay);
+    }
+
+    public EventPublisher getPublisher() {
+        return publisher;
+    }
+
+    public String getCaseId() {
+        return caseId;
+    }
 }
+
