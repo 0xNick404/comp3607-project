@@ -14,8 +14,9 @@ import java.util.List;
  * publishing to avoid {@link java.util.ConcurrentModificationException}.
  *
  * <p>
+ * 
  * @author Mahaveer Ragbir
- * </p>
+ *         </p>
  */
 public class SimpleEventPublisher implements EventPublisher {
     private final List<EventListener> listeners = new ArrayList<>();
@@ -52,5 +53,11 @@ public class SimpleEventPublisher implements EventPublisher {
      */
     @Override
     public void publish(EventRecord event) {
+        // Create a snapshot to avoid ConcurrentModificationException
+        List<EventListener> listenersSnapshot = new ArrayList<>(listeners);
+
+        for (EventListener listener : listenersSnapshot) {
+            listener.onEvent(event);
+        }
     }
 }
