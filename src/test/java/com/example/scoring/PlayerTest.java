@@ -1,5 +1,6 @@
-package com.example.model;
+package com.example.scoring;
 
+import com.example.model.Player;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
