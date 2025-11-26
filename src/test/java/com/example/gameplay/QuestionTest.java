@@ -1,5 +1,6 @@
-package com.example.model;
+package com.example.gameplay;
 
+import com.example.model.Question;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,6 +57,6 @@ public class QuestionTest {
     @Test
     public void valueHandlesInvalidNumber() {
         Question invalidQuestion = new Question("Math", "invalid", "Test?", options, "Answer");
-        assertEquals(0, invalidQuestion.getValue()); 
+        assertEquals(0, invalidQuestion.getValue());
     }
 }
