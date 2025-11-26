@@ -2,6 +2,7 @@ package com.example.logging;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 
 /**
  * Event listener implementation that logs events to a CSV file.
@@ -21,6 +22,10 @@ public class CSVEventLogger implements EventListener {
      */
     public CSVEventLogger(String filename) {
         this.filename = filename;
+        System.out.println("=== CSVEventLogger Constructor ===");
+        System.out.println("Filename: " + filename);
+        System.out.println("Absolute path: " + new File(filename).getAbsolutePath());
+        System.out.println("Current directory: " + new File(".").getAbsolutePath());
         writeHeader();
     }
 
@@ -30,12 +35,39 @@ public class CSVEventLogger implements EventListener {
      */
     private void writeHeader() {
         try {
-            FileWriter writer = new FileWriter(filename, false); 
+            System.out.println("=== writeHeader() ===");
+            File file = new File(filename);
+            System.out.println("File object created: " + file.getAbsolutePath());
+
+            // FIX: Check if parent directory exists, but handle null case
+            File parentDir = file.getParentFile();
+            if (parentDir != null) {
+                System.out.println("Parent directory exists: " + parentDir.exists());
+            } else {
+                System.out.println("No parent directory (file in current directory)");
+            }
+
+            FileWriter writer = new FileWriter(filename, false);
+            System.out.println("FileWriter created successfully");
+
             writer.write(
                     "Case_ID,Player_ID,Activity,Timestamp,Category,Question_Value,Answer_Given,Result,Score_After_Play\n");
+            System.out.println("Header written to buffer");
+
+            writer.flush();
+            System.out.println("Data flushed to disk");
+
             writer.close();
+            System.out.println("FileWriter closed");
+
+            // Verify file was actually created
+            System.out.println("File exists after creation: " + file.exists());
+            System.out.println("File size: " + file.length());
+            System.out.println("=== writeHeader() COMPLETE ===");
+
         } catch (IOException e) {
-            System.out.println("Error writing header: " + e.getMessage());
+            System.err.println("ERROR in writeHeader: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -49,7 +81,7 @@ public class CSVEventLogger implements EventListener {
     @Override
     public void onEvent(EventRecord event) {
         try {
-            FileWriter writer = new FileWriter(filename, true); 
+            FileWriter writer = new FileWriter(filename, true);
 
             String caseId = event.getCaseId() != null ? event.getCaseId() : "";
             String playerId = event.getPlayerId() != null ? event.getPlayerId() : "";
@@ -70,10 +102,12 @@ public class CSVEventLogger implements EventListener {
                     category + "," + questionValue + "," + answerGiven + "," + result + "," + score + "\n";
 
             writer.write(line);
+            writer.flush();
             writer.close();
 
         } catch (IOException e) {
-            System.out.println("Error writing event: " + e.getMessage());
+            System.err.println("Error writing event: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
