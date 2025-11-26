@@ -4,7 +4,6 @@ import java.time.Instant;
 
 /**
  * Utility helper for creating and publishing {@link EventRecord} instances.
- * <p>
  * This class centralizes the construction of {@code EventRecord} objects and
  * publishes them through a provided {@link EventPublisher}. It performs a
  * null-check on the publisher and stamps events with the current instant.
@@ -58,3 +57,4 @@ public class LogHelper {
         publisher.publish(ev);
     }
 }
+
