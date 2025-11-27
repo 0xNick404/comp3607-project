@@ -149,7 +149,6 @@ public class PDFReportGenerator implements  ReportGenerator {
         table.addHeaderCell(new Paragraph("PLAYER").setBold());
         table.addHeaderCell(new Paragraph("CATEGORY").setBold());
         table.addHeaderCell(new Paragraph("VALUE").setBold());
-        table.addHeaderCell(new Paragraph("ANSWER").setBold());
         table.addHeaderCell(new Paragraph("RESULT").setBold());
         table.addHeaderCell(new Paragraph("TOTAL").setBold());
 
