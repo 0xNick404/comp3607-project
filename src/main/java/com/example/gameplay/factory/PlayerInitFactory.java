@@ -22,7 +22,14 @@ public class PlayerInitFactory{
 
         System.out.print("Enter number of players for this game (1-4): ");
         int numPlayers = Integer.parseInt(input.nextLine());
-        
+
+        if(numPlayers < 1 || numPlayers > 4){
+            while(numPlayers <= 0 || numPlayers > 4){
+                System.out.print("Enter number of players for this game (1-4): ");
+                numPlayers = Integer.parseInt(input.nextLine());
+            }
+        }
+
         for(int i = 1; i <= numPlayers; i++){
             System.out.print("Enter name for Player " + i + ": ");
             String name = input.nextLine();
