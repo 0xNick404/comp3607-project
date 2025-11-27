@@ -7,11 +7,8 @@ import java.util.List;
  * A simple {@link EventListener} implementation that stores received
  * {@link EventRecord} instances in memory. This listener is primarily useful
  * for testing and lightweight in-process event collection.
- *
- * <p>
  * 
  * @author Mahaveer Ragbir
- *         </p>
  */
 public class SimpleEventListener implements EventListener {
     private final List<EventRecord> events = new ArrayList<>();

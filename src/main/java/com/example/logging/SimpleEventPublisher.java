@@ -12,11 +12,8 @@ import java.util.List;
  * unregistering them, and broadcasting {@link EventRecord} instances to all
  * listeners currently stored. A snapshot of the listener list is used during
  * publishing to avoid {@link java.util.ConcurrentModificationException}.
- *
- * <p>
  * 
  * @author Mahaveer Ragbir
- *         </p>
  */
 public class SimpleEventPublisher implements EventPublisher {
     private final List<EventListener> listeners = new ArrayList<>();
