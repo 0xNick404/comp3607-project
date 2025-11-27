@@ -1,5 +1,6 @@
 package com.example.gameplay.state;
 
+import com.example.model.GameTurn;
 import com.example.model.Player;
 
 /**
@@ -7,6 +8,7 @@ import com.example.model.Player;
  * marks the question as completed. After updating the score, this state advances the game to
  * the next player's turn.
  * @author Nicholas Grimes
+ * @author Shiann Noriega
  */
 public class UpdateScoreState implements GameState{
     /**
@@ -18,6 +20,9 @@ public class UpdateScoreState implements GameState{
     public void loadGameState(GameEngine gameEngine) {
         Player player = gameEngine.getCurrentPlayer();
         int points = gameEngine.getCurrentQuestion().getValue();
+
+        boolean isCorrect = gameEngine.isAnswerCorrect();
+        int pointsEarned = isCorrect ? points : -points;
 
         if (gameEngine.isAnswerCorrect()) {
             player.updateScore(points);
@@ -42,6 +47,19 @@ public class UpdateScoreState implements GameState{
                 result,
                 player.getScore() // score after update
         );
+
+        GameTurn turn = new GameTurn(
+            player, 
+            gameEngine.getCurrentQuestion().getCategory(), 
+            gameEngine.getCurrentQuestion().getValue(), 
+            gameEngine.getCurrentQuestion().getQuestionText(), 
+            gameEngine.getInput(), 
+            isCorrect, 
+            pointsEarned, 
+            player.getScore()
+        );
+
+        gameEngine.recordTurn(turn);
 
         gameEngine.updatePlayerTurn();
     }

@@ -26,7 +26,7 @@ public class GameEngine {
     private Scanner scanner;
     private List<Player> players;
     private List<Question> questions;
-    private List<GameTurn> turns = new ArrayList<>();
+    private List<GameTurn> turnHistory = new ArrayList<>();
     private int currentPlayer;
     private Question currentQuestion;
     private String playerInput;
@@ -272,7 +272,15 @@ public class GameEngine {
      * @return an unmodifiable list of {@link GameTurn} objects
      */
     public List<GameTurn> getTurns() {
-        return Collections.unmodifiableList(turns);
+        return Collections.unmodifiableList(turnHistory);
+    }
+
+    /**
+     * Records a completed game turn by adding it to the turn history.
+     * @param turn the {@link GameTurn} to record
+     */
+    public void recordTurn(GameTurn turn){
+        turnHistory.add(turn);
     }
 
     /**
